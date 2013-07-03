@@ -1,0 +1,14 @@
+{
+  "name": "visage-grid",
+  "version": "0.0.1",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "1.2.x"
+  },
+  "main": "app.js",
+  "description": "Get an email each day of an acquaintance's face. You guess their name.",
+  "dependencies": {
+    "hapi": "1.8.2",
+    "redis": "0.8.4"
+  }
+}
