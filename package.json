@@ -9,6 +9,8 @@
   "description": "Get an email each day of an acquaintance's face. You guess their name.",
   "dependencies": {
     "hapi": "1.8.2",
-    "redis": "0.8.4"
+    "redis": "0.8.4",
+		"sendgrid": "0.2.7",
+		"fullcontact-api": "latest"
   }
 }
