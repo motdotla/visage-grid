@@ -122,4 +122,36 @@ Now, you should get a response like this.
 
 That's cool. Now let's check and make sure the email is in the database. Let's add an additional endpoint to show all the emails.
 
+```
+  index: {
+    handler: function(request) {
+      db.smembers("emails", function(err, data) {
+        request.reply({
+          success: true,
+          emails: data
+        });    
+      });
+    }
+```
 
+And also the server.route
+
+```
+server.route({
+  method    : 'GET',
+  path      : '/emails',
+  config    : emails.index
+});
+```
+
+Now you are probably getting the hang of creating these endpoints. If you curl that one, you will see a list of emails looking something like this.
+
+```
+{"success":true,"emails":["scott@scottmotte.com","scott.MOTTE@sendgrid.com","scott.motte@sendgrid.com"]}
+```
+
+The redis smembers takes care of keeping the array unique, but it is case sensitive. I'll leave it to you to fix up the create action to downcase everythingor upcase if that is your fancy.
+
+Okay, now we know they are there. Now let's get some contact info associated with them.
+
+We want to email ourself with this so we are going to create a command line task to do that. Then we will setup a cron job to run that task. 
