@@ -11,7 +11,7 @@
     "dotenv": "0.0.1",
     "hapi": "1.8.2",
     "redis": "0.8.4",
-		"sendgrid": "0.2.7",
-		"fullcontact-api": "latest"
+    "sendgrid": "0.2.7",
+    "fullcontact-api": "latest"
   }
 }
