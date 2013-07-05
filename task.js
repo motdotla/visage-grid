@@ -6,7 +6,7 @@ dotenv().load();
 var to                  = process.env.TO;
 var sendgrid_username   = process.env.SENDGRID_USERNAME; 
 var sendgrid_password   = process.env.SENDGRID_PASSWORD; 
-var fullcontact_key 		= process.env.FULLCONTACT_KEY;
+var fullcontact_key     = process.env.FULLCONTACT_KEY;
 
 var SendGrid    				= require('sendgrid').SendGrid;
 var sendgrid    				= new SendGrid(sendgrid_username, sendgrid_password);
@@ -16,9 +16,10 @@ var db          				= redis.createClient();
 
 db.smembers("emails", function(err, data) {
 	var available_emails 	= data;
-	var email 						= available_emails[0];
-
-	fullcontact.person.findByEmail(email, function(err, json) {
+  var random_number     = Math.floor(Math.random()*available_emails.length);
+	var email 						= available_emails[random_number];
+  
+  fullcontact.person.findByEmail(email, function(err, json) {
     if (err) {
 		  console.log(err);
       process.exit();
