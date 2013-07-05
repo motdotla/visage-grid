@@ -12,7 +12,14 @@ var SendGrid            = require('sendgrid').SendGrid;
 var sendgrid            = new SendGrid(sendgrid_username, sendgrid_password);
 var fullcontact         = require('fullcontact-api')(fullcontact_key);
 var redis               = require('redis');
-var db                  = redis.createClient();
+var db;
+if (process.env.REDISTOGO_URL) {
+  var rtg     = require("url").parse(process.env.REDISTOGO_URL);
+  var db      = redis.createClient(rtg.port, rtg.hostname);
+  db.auth(rtg.auth.split(":")[1]);
+} else {
+  db          = redis.createClient();
+}
 
 db.smembers("emails", function(err, data) {
   var available_emails  = data;
