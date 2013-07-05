@@ -10,5 +10,6 @@ Get an email each day of an acquaintance's face. You guess their name.
 heroku create
 heroku addons:add redistogo
 heroku addons:add scheduler:standard
+heroku addons:add sendgrid:starter
 git push heroku master
 ```
