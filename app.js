@@ -1,3 +1,6 @@
+var dotenv = require('dotenv');
+dotenv().load();
+
 var port        = parseInt(process.env.PORT) || 3000;
 var hapi        = require('hapi');
 var redis       = require('redis');
