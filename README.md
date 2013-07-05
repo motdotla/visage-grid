@@ -245,4 +245,11 @@ Well, that pretty much sums it up. Now you would take this and put it on your se
 
 But to use it you have to make that curl request every time you find someone's email. Stay tuned for part 2 of this, where I show you how to simply forward an email, and it go into this visage-grid system. We've already built the API endpoints so it won't be too bad to do thanks to SendGrid's Parse API.
 
+Now let's add our credentials to a .env.development file.
 
+```
+TO=youremail@youremail.com
+SENDGRID_USERNAME=sendgridusername
+SENDGRID_PASSWORD=sendgridpassword
+FULLCONTACT_KEY=1234
+```

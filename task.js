@@ -3,6 +3,7 @@
 var dotenv = require('dotenv');
 dotenv().load();
 
+var to                  = process.env.TO;
 var sendgrid_username   = process.env.SENDGRID_USERNAME; 
 var sendgrid_password   = process.env.SENDGRID_PASSWORD; 
 var fullcontact_key 		= process.env.FULLCONTACT_KEY;
@@ -26,15 +27,19 @@ db.smembers("emails", function(err, data) {
       var name 			= json.contactInfo.fullName;
 
       var html 			= "<p><img src='"+photo_url+"'/></p><ul><li>"+name+"</li></li>";
-      
-      console.log(html);
 
       sendgrid.send({
-        to 					: 'scott.motte@sendgrid.com',
-        from 				: 'scott.motte@sendgrid.com',
+        to 					: to, 
+        from 				: to, 
         subject 		: '[visage-grid] delivery',
         html 				: html 
       }, function(success, message) {
+        if (!success) {
+          console.log(message);
+        } else {
+          console.log("Email sent with content: "+html);
+        }
+
         process.exit();
       });
     }
