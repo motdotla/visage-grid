@@ -37,9 +37,25 @@ var emails      = {
         });    
       });
     }
+  },
+  parse: {
+    handler: function(request) {
+      var payload = request.payload;
+
+      console.log(payload);
+
+      request.reply({
+        success: true
+      });
+    }
   }
 };
 
+server.route({
+  method    : 'POST',
+  path      : '/emails/parse',
+  config    : emails.parse
+});
 server.route({
   method    : 'POST',
   path      : '/emails',
