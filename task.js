@@ -28,11 +28,14 @@ db.smembers("emails", function(err, data) {
   fullcontact.person.findByEmail(email, function(err, json) {
     if (err) {
       console.log(err);
-      process.exit();
+      return process.exit();
     } else {
+      if (json.status == "404") {
+        return process.exit();
+      }
+
       var photo_url = json.photos[0].url; 
       var name      = json.contactInfo.fullName;
-
       var html      = "<p><img src='"+photo_url+"'/></p><p>"+name+"</p>";
 
       sendgrid.send({
@@ -43,12 +46,11 @@ db.smembers("emails", function(err, data) {
       }, function(err, json) {
         if (err) { 
           console.error(err); 
-          process.exit();
+          return process.exit();
         }
-
         console.log(json);
 
-        process.exit();
+        return process.exit();
       });
     }
   });
