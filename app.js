@@ -15,6 +15,11 @@ if (process.env.REDISTOGO_URL) {
   db          = redis.createClient();
 }
 
+function findEmailAddresses(text) {
+  var emails = text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi);
+  return emails;
+}
+
 var emails      = {
   create: {
     handler: function(request) {
@@ -41,8 +46,11 @@ var emails      = {
   parse: {
     handler: function(request) {
       var payload = request.payload;
+      var emails  = findEmailAddresses(payload.text);
 
-      console.log(payload);
+      emails.forEach(function(email) {
+        db.sadd("emails", email); 
+      });
 
       request.reply({
         success: true
