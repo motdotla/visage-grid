@@ -8,8 +8,7 @@ var sendgrid_username   = process.env.SENDGRID_USERNAME;
 var sendgrid_password   = process.env.SENDGRID_PASSWORD; 
 var fullcontact_key     = process.env.FULLCONTACT_KEY;
 
-var SendGrid            = require('sendgrid').SendGrid;
-var sendgrid            = new SendGrid(sendgrid_username, sendgrid_password);
+var sendgrid            = require('sendgrid')(sendgrid_username, sendgrid_password);
 var fullcontact         = require('fullcontact-api')(fullcontact_key);
 var redis               = require('redis');
 var db;
@@ -34,25 +33,23 @@ db.smembers("emails", function(err, data) {
       var photo_url = json.photos[0].url; 
       var name      = json.contactInfo.fullName;
 
-      var html      = "<p><img src='"+photo_url+"'/></p><ul><li>"+name+"</li></li>";
+      var html      = "<p><img src='"+photo_url+"'/></p><p>"+name+"</p>";
 
       sendgrid.send({
         to          : to, 
         from        : to, 
         subject     : '[visage-grid] delivery',
         html        : html 
-      }, function(success, message) {
-        if (!success) {
-          console.log(message);
-        } else {
-          console.log("Email sent with content: "+html);
+      }, function(err, json) {
+        if (err) { 
+          console.error(err); 
+          process.exit();
         }
+
+        console.log(json);
 
         process.exit();
       });
     }
   });
 });
-
-
-
