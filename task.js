@@ -20,38 +20,54 @@ if (process.env.REDISTOGO_URL) {
   db          = redis.createClient();
 }
 
-db.smembers("emails", function(err, data) {
-  var available_emails  = data;
-  var random_number     = Math.floor(Math.random()*available_emails.length);
-  var email             = available_emails[random_number];
-  
-  fullcontact.person.findByEmail(email, function(err, json) {
-    if (err) {
-      console.log(err);
-      return process.exit();
-    } else {
-      if (json.status == "404") {
+function getPerson(callback) {
+  db.smembers("emails", function(err, data) {
+    var available_emails  = data;
+    var random_number     = Math.floor(Math.random()*available_emails.length);
+    var email             = available_emails[random_number];
+
+    console.log("Selecting "+email+" from "+available_emails.length+" available emails");
+    
+    fullcontact.person.findByEmail(email, function(err, json) {
+      if (err) {
+        return callback(err, null);
+      } else {
+        if (json.status == "404") {
+          return callback(new Error('404'), null);
+        }
+
+        callback(null, json);
+      };
+    });
+  });
+};
+
+
+function runTask() {
+  getPerson(function(err, json) {
+    if (err) { 
+      return runTask();
+    };
+
+    var photo_url = json.photos[0].url; 
+    var name      = json.contactInfo.fullName;
+    var html      = "<p><img src='"+photo_url+"'/></p><p>"+name+"</p>";
+
+    sendgrid.send({
+      to          : to, 
+      from        : to, 
+      subject     : '[visage-grid] delivery',
+      html        : html 
+    }, function(err, json) {
+      if (err) { 
+        console.error(err); 
         return process.exit();
       }
+      console.log(json);
 
-      var photo_url = json.photos[0].url; 
-      var name      = json.contactInfo.fullName;
-      var html      = "<p><img src='"+photo_url+"'/></p><p>"+name+"</p>";
-
-      sendgrid.send({
-        to          : to, 
-        from        : to, 
-        subject     : '[visage-grid] delivery',
-        html        : html 
-      }, function(err, json) {
-        if (err) { 
-          console.error(err); 
-          return process.exit();
-        }
-        console.log(json);
-
-        return process.exit();
-      });
-    }
+      return process.exit();
+    });
   });
-});
+}
+
+runTask();

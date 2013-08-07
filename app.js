@@ -46,6 +46,7 @@ var emails      = {
   parse: {
     handler: function(request) {
       var payload = request.payload;
+      console.log(payload);
       var emails  = findEmailAddresses(payload.text);
 
       emails.forEach(function(email) {
