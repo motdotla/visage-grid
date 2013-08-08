@@ -22,7 +22,7 @@ Setup your SendGrid account to parse emails.
 
 Go to [http://sendgrid.com/developer/reply](http://sendgrid.com/developer/reply).
 
-Set your hostname as `m.yourdomain.com` and set your url as `https://yoursubdomain.herokuapp.com/parse`. Save that.
+Set your hostname as `m.yourdomain.com` and set your url as `https://yoursubdomain.herokuapp.com/emails/parse`. Save that.
 
 Then go to your domain's DNS dashboard and add the MX record with the hostname `m.yourdomain.com` with the value of `mx.sendgrid.net`. 
 
