@@ -34,7 +34,7 @@ Then go to your domain's DNS dashboard and add the MX record with the hostname `
 
 Finally, setup all your emails to forward to `email@m.yourdomain.com`. You can do this in GMail by going to Settings > Forwarding & POP/IMAP and adding a forward address to `email@m.yourdomain.com`.
 
-![](https://raw.github.com/scottmotte/visage-grid/master/readme/gmail-forward-1.png)
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/gmail-forward-1.jpg)
 
 Lastly, setup a recurring task each morning to send you the email. Use heroku scheduler for this. Add the job to look like this:
 
