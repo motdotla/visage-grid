@@ -45,7 +45,7 @@ function getPerson(callback) {
 
 function runTask() {
   getPerson(function(err, json) {
-    if (err) { 
+    if (err || !json.photos) { 
       return runTask();
     };
 
