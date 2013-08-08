@@ -24,15 +24,25 @@ Go to [http://sendgrid.com/developer/reply](http://sendgrid.com/developer/reply)
 
 Set your hostname as `m.yourdomain.com` and set your url as `https://yoursubdomain.herokuapp.com/emails/parse`. Save that.
 
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/sendgrid-inbound-1.png)
+
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/sendgrid-inbound-2.png)
+
 Then go to your domain's DNS dashboard and add the MX record with the hostname `m.yourdomain.com` with the value of `mx.sendgrid.net`. 
 
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/sendgrid-mx-record.png)
+
 Finally, setup all your emails to forward to `email@m.yourdomain.com`. You can do this in GMail by going to Settings > Forwarding & POP/IMAP and adding a forward address to `email@m.yourdomain.com`.
+
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/gmail-forward-1.png)
 
 Lastly, setup a recurring task each morning to send you the email. Use heroku scheduler for this. Add the job to look like this:
 
 |Task       | Dyno Size | Frequency |
 |-----------|-----------|-----------|
 |node ./task.js|  1x    | Daily     |
+
+![](https://raw.github.com/scottmotte/visage-grid/master/readme/heroku-scheduler.png)
 
 ### Optional Usage
 
